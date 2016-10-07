@@ -1,4 +1,5 @@
 .idea
-.node_modules
-.avoscloud.avoscloud/
+node_modules
+.avoscloud
 pwd.txt
+npm-debug.log
