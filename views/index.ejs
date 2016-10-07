@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>daka-<%= name %></title>
+</head>
+<body>
+<h1 class="g-hd"><%= name %></h1>
+<div class="g-bd">
+    <form enctype="multipart/form-data" action="/record" method="post">
+        <label for="">上传QQ安卓版导出的聊天记录txt文件</label>
+        <input name="txt" type="file">
+        <input name="teamId" type="text" style="display: none;" value="579358f5128fe10056ac5b6b">
+        <input id="pwd" name="pwd" type="password" style="display: none;">
+        <button id="generate" type="submit">生成打卡记录</button>
+    </form>
+</div>
+
+<script>
+    addEvent(getElem('#generate'), 'click', function (e) {
+        var pwd = prompt('请输入管理员密码');
+        if (!pwd) {
+            e.preventDefault();
+        }
+
+        getElem('#pwd').value = pwd;
+    })
+
+    function getElem(selector) {
+        return document.querySelector(selector);
+    }
+
+    function addEvent(elem, eventName, cb, useCapture) {
+        return elem.addEventListener(eventName, cb, useCapture);
+    }
+</script>
+</body>
+</html>

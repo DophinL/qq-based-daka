@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>基于QQ聊天记录的打卡识别</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/table.css">
+    <link rel="stylesheet" href="/css/m-popover.css">
+    <style>
+        .config{
+            margin: 20px;;
+        }
+        .table-wrap{
+            margin:30px;
+            overflow: auto;
+        }
+        .check{
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background: url("/img/check.png") center center/cover;
+        }
+    </style>
+</head>
+<body>
+<div class="config">
+    <a><%= file.name %></a>
+</div>
+
+<div class="config">
+    <label for="">起始时间:</label>
+    <input value=<%= _start %> id="start" type="date">
+    <label for="">结束时间:</label>
+    <input value=<%= _end %> id="end" type="date">
+    <label for="">关键词:</label>
+    <input value=<%= _keyword %> id="keyword" type="text" placeholder="请输入关键词">
+    <label for="">补卡关键词:</label>
+    <input value="<%= _patchKeyword %>" id="patchKeyword" type="text" placeholder="请输入补卡关键词,%date%为保留字">
+    <label for="">删卡关键词:</label>
+    <input value="<%= _delKeyword %>" id="delKeyword" type="text" placeholder="请输入删卡关键词,%date%为保留字">
+    <input id="pwd" name="pwd" type="password" style="display: none;">
+</div>
+
+<div class="config">
+    <button id="update">更新打卡记录</button>
+</div>
+
+<div class="table-wrap">
+
+<table class="u-table">
+    <tr>
+        <th>共<%= Object.keys(names).length %>人</th>
+        <% for(var name in names) { %>
+        <th><%= name %></th>
+        <% } %>
+    </tr>
+    <% for(var i = 0; i <= date.days; i++) { %>
+    <tr>
+        <% var today = formatDate(+date.start + i * 24 * 60 * 60 * 1000) %>
+        <th><%= today %></th>
+        <% for(var name in names) { %>
+        <% var flag%>
+        <td>
+            <% (analysis[today] && analysis[today][name]) ? (flag=1) : (flag=0) %>
+            <% if(flag){ %>
+            <% var temp = {'content':analysis[today][name]} %>
+            <span class="check" alt="已打卡" data-popover="<%= JSON.stringify(temp)%>"></span>
+            <% } %>
+        </td>
+        <% } %>
+    </tr>
+    <% } %>
+</table>
+</div>
+<script src="/js/jquery-2.2.2.min.js"></script>
+<script src="/js/jquery.xPopover.js"></script>
+<script>
+    $('#update').click(function () {
+        var start = new Date($('#start').val()),end = new Date($('#end').val());
+        if(end<start){
+            alert('结束时间不能小于开始时间!')
+            return;
+        }
+
+        var pwd = prompt('请输入密码');
+        if(!pwd){
+            return;
+        }
+
+        $.ajax('', {
+            method: 'PATCH',
+            data: {
+                start:$('#start').val(),
+                end:$('#end').val(),
+                keyword:$('#keyword').val(),
+                patchKeyword:$('#patchKeyword').val(),
+                delKeyword:$('#delKeyword').val(),
+                pwd:pwd
+            },
+            dataType: 'json',
+            success: function (result) {
+                if(result.code == 200){
+                    location.reload();
+                }else{
+                    alert('错误码['+result.code+']:'+result.msg);
+                }
+            },
+            error: function (xhr) {
+                alert('ajax error');
+            }
+        })
+    })
+
+    $("#form").submit(function (e) {
+        var start = new Date($('#start').val()), end = new Date($('#end').val());
+        if (end < start) {
+            alert('结束时间不能小于开始时间!')
+            e.preventDefault();
+            return;
+        }
+
+    })
+</script>
+</body>
+</html>

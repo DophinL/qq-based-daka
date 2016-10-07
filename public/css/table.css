@@ -1,0 +1,49 @@
+.u-table {
+  text-align: center;
+  border: 1px solid #e6e6e6;
+  font-size: 12px;
+  table-layout: fixed;
+}
+.u-table th {
+  background: #f8f8f8;
+  min-width: 100px;
+  height: 38px;
+  padding: 0px 2px;
+  color: #595959;
+  border: 1px solid #e6e6e6;
+  font-weight: bold;
+}
+.u-table td {
+  padding: 8px 2px;
+  border-right: 1px dashed #e6e6e6;
+  border-bottom: 1px solid #e6e6e6;
+}
+.u-table td .u-btn:nth-child(2) {
+  margin-left: 10px;
+}
+.u-table tr:nth-child(even) td {
+  background: #fcfcfc;
+}
+.u-table tr.heightLine {
+  border: 1px solid #d8eafb;
+}
+.u-table tr.heightLine td {
+  background: #d8eafb;
+}
+.u-table a {
+  text-decoration: underline;
+  color: #357ebd;
+}
+.u-table .reasonPopoverWrap {
+  position: relative;
+  display: inline-block;
+}
+.u-table .reasonPopoverWrap .m-popover {
+  width: 130px;
+}
+.u-table .reasonPopoverWrap .popover_cnt {
+  min-height: 50px;
+}
+.u-table .table-action a:nth-child(2) {
+  margin-left: 5px;
+}

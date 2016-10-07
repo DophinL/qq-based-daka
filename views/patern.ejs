@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>基于QQ聊天记录的打卡识别</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="/css/base.css">
+    <link rel="stylesheet" href="/css/m-popover.css">
+    <style>
+        .config{
+            margin: 20px;;
+        }
+    </style>
+</head>
+<body>
+<form id="form" enctype="multipart/form-data" action="/record" method="post">
+    <div class="config">
+        <label for="">上传txt文件(qq聊天记录)</label>
+        <input name="txt" type="file" placeholder="请输入关键词">
+    </div>
+
+    <div class="config">
+        <label for="">起始时间:</label>
+        <input value="<%= _start %>" id="start" name="start" type="date" placeholder="开始时间">
+        <label for="">结束时间:</label>
+        <input value="<%= _end %>" id="end" name="end" type="date" placeholder="结束时间">
+        <label for="">打卡关键词:</label>
+        <input value="<%= _keyword %>" name="keyword" type="text" placeholder="请输入打卡关键词">
+        <label for="">补卡关键词:</label>
+        <input value="<%= _patchKeyword %>" name="patchKeyword" type="text" placeholder="请输入补卡关键词,%date%为保留字">
+        <label for="">删卡关键词:</label>
+        <input value="<%= _delKeyword %>" name="delKeyword" type="text" placeholder="请输入删卡关键词,%date%为保留字">
+        <input id="pwd" name="pwd" type="password" style="display: none;">
+    </div>
+
+    <div class="config">
+        <button type="submit">生成打卡记录</button>
+    </div>
+</form>
+
+<script src="/js/jquery-2.2.2.min.js"></script>
+<script>
+    $("#form").submit(function (e) {
+        var start = new Date($('#start').val()), end = new Date($('#end').val());
+        if (end < start) {
+            alert('结束时间不能小于开始时间!')
+            e.preventDefault();
+            return;
+        }
+
+        var pwd = prompt('请输入密码');
+        if(!pwd){
+            e.preventDefault();
+            return;
+        }
+
+        $('#pwd').val(pwd);
+    })
+</script>
+</body>
+
+</html>
